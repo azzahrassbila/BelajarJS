@@ -70,3 +70,47 @@
 //     console.log(isi)
 //     p.innerHTML = isi
 // })
+
+const todoForm = document.getElementById("todo-form");
+const todoInput = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
+
+todoForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const todoText = todoInput.value.trim();
+
+    if (todoText !== "") {
+        const todoItem = document.createElement("div");
+        todoItem.classList.add("todo-item");
+        
+        const completeCheckbox = document.createElement("input");
+        completeCheckbox.type = "checkbox";
+        completeCheckbox.classList.add("complete-checkbox");
+        
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "X";
+        deleteButton.classList.add("X-button");
+        
+        todoItem.innerHTML = `
+            <span>${todoText}</span>
+        `;
+        
+        todoItem.prepend(completeCheckbox);
+        todoItem.appendChild(deleteButton);
+        
+        todoList.appendChild(todoItem);
+        todoInput.value = "";
+        
+        completeCheckbox.addEventListener("change", () => {
+            const todoSpan = todoItem.querySelector("span");
+            todoSpan.innerHTML = completeCheckbox.checked
+                ? `<del>${todoText}</del>`
+                : todoText;
+        });
+        
+        deleteButton.addEventListener("click", () => {
+            todoItem.remove();
+        });
+    }
+});
+
